@@ -1,0 +1,26 @@
+specVersion: 0.0.2
+description: Token Subgraph API
+repository: https://github.com/zikyfranky/usdt-subgraph
+schema:
+  file: ./token.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Transfer
+    network: mainnet
+    source:
+      address: "0xdac17f958d2ee523a2206206994597c13d831ec7"
+      abi: USDT
+      startBlock: 4634748
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./mapping/transfer.ts
+      entities:
+        - Transfer
+      abis:
+        - name: USDT
+          file: ./abis/USDT.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
